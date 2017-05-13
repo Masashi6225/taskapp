@@ -12,6 +12,7 @@
 		4651499A1EC716250073A81E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 465149981EC716250073A81E /* Main.storyboard */; };
 		4651499C1EC7162D0073A81E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4651499B1EC7162D0073A81E /* Assets.xcassets */; };
 		4651499F1EC716310073A81E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4651499D1EC716310073A81E /* LaunchScreen.storyboard */; };
+		465149A71EC722850073A81E /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465149A61EC722850073A81E /* InputViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4651499B1EC7162D0073A81E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4651499E1EC716310073A81E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		465149A01EC716360073A81E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		465149A61EC722850073A81E /* InputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				465149941EC716160073A81E /* AppDelegate.swift */,
 				465149961EC7161C0073A81E /* ViewController.swift */,
 				465149981EC716250073A81E /* Main.storyboard */,
+				465149A61EC722850073A81E /* InputViewController.swift */,
 				4651499B1EC7162D0073A81E /* Assets.xcassets */,
 				4651499D1EC716310073A81E /* LaunchScreen.storyboard */,
 				465149A01EC716360073A81E /* Info.plist */,
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				465149A71EC722850073A81E /* InputViewController.swift in Sources */,
 				465149971EC7161C0073A81E /* ViewController.swift in Sources */,
 				465149951EC716170073A81E /* AppDelegate.swift in Sources */,
 			);
@@ -299,6 +303,7 @@
 				465149A51EC716360073A81E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
