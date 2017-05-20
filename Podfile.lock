@@ -1,0 +1,34 @@
+PODS:
+  - Realm (0.103.0):
+    - Realm/Headers (= 0.103.0)
+  - Realm/Headers (0.103.0)
+  - RealmSwift (0.103.0):
+    - Realm (= 0.103.0)
+
+DEPENDENCIES:
+  - Realm (from `http://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+  - RealmSwift (from `http://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+
+EXTERNAL SOURCES:
+  Realm:
+    :branch: swift-2.0
+    :git: http://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :branch: swift-2.0
+    :git: http://github.com/realm/realm-cocoa.git
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: 4c376cfb59e2563b32be9d3cae4f0aeaff5d6271
+    :git: http://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :commit: 4c376cfb59e2563b32be9d3cae4f0aeaff5d6271
+    :git: http://github.com/realm/realm-cocoa.git
+
+SPEC CHECKSUMS:
+  Realm: 99c44c3a9e075638478d4134e28d9026a6de07c4
+  RealmSwift: daaa1789eb581f2f8c2a05a25f463a6f70df5a5f
+
+PODFILE CHECKSUM: 67062277f82690e43478b235587072ba44142c03
+
+COCOAPODS: 1.1.1
