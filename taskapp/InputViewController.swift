@@ -19,6 +19,31 @@ class InputViewController: UIViewController {
     var task: Task!
     let realm = try! Realm()
     
+    var categorySelector: String = ""
+    
+    // プロパティを動的にセットします
+    func setCategory(category : String) {
+        objc_setAssociatedObject(
+            self,
+            &categorySelector,
+            category,
+            objc_AssociationPolicy(rawValue: UInt())!
+            )
+    }
+    
+    // プロパティを動的に取得します
+    func cateogry()->String! {
+        if let category = objc_getAssociatedObject(
+            self,
+            &categorySelector
+            ) as? String
+        {
+            return category
+        }
+        return nil
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
