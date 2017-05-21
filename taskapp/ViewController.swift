@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -19,7 +20,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //DB内のタスクが格納されるリスト
     //日付近い順でソート：降順
     //以降内容をアップデートするとリスト内は自動的に更新される
-    let taskArray = try! Realm().objects(Task.self).sorted(byProperty:"date", ascending:false)
+    let taskArray = try! Realm().objects(Task.self).sorted(byKeyPath:"date", ascending:false)
     
     
     override func viewDidLoad() {
@@ -48,7 +49,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
         //cellに値を設定する
         let task = taskArray[indexPath.row]
-        cell.textlLabel?.text = text.title
+        cell.textLabel?.text = task.title
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -62,7 +63,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: UITableViewDelegateプロトコルのメソッド
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifer: "cellSegue",sender:nil)
+        performSegue(withIdentifier: "cellSegue",sender:nil)
     }
     
     // セルが削除が可能なことを伝えるメソッド
@@ -72,14 +73,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath){
-        if editingStyle == UITableViewCellStyle.delete{
+        if editingStyle == UITableViewCellEditingStyle.delete{
             
             //削除されたタスクを取得する
             let task = self.taskArray[indexPath.row]
             
             //ローカル通知をキャンセルする
             let center = UNUserNotificationCenter.current()
-            center.removePendingNotificationRequests(withIdentifiers:[String(task:id)])
+            center.removePendingNotificationRequests(withIdentifiers:[String(task.id)])
             
             try! realm.write{
                 self.realm.delete(task)
@@ -88,7 +89,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             //未通知のローカル通知一覧をログ出力
             center.getPendingNotificationRequests{(request:[UNNotificationRequest]) in
-                for request in requests {
+                for request in request {
                     print("/--------")
                     print(request)
                     print("------/")
@@ -117,7 +118,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         override func viewWillAppear(_ animated: Bool){
             super.viewWillAppear(animated)
-            tableView.reloadDate()
+            tableView.reloadData()
         }
 }
 

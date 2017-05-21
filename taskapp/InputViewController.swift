@@ -22,7 +22,7 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismisKeyboard))
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         
         titleTextField.text = task.title
@@ -48,19 +48,19 @@ class InputViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    func setNotification(task: task){
+    func setNotification(task: Task){
         let content = UNMutableNotificationContent()
-        content.tile = task.title
+        content.title = task.title
         content.body = task.contents
         content.sound = UNNotificationSound.default()
     
         let calendar = NSCalendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: task.date as Date)
         let trigger = UNCalendarNotificationTrigger.init(dateMatching: dateComponents, repeats: false)
-        let request = UNNotoficationRequest.init(identifier: String(task.id), content: content, trigger: trigger)
+        let request = UNNotificationRequest.init(identifier: String(task.id), content: content, trigger: trigger)
         let center = UNUserNotificationCenter.current()
-        center.add(request) {(error) in
-            print(error)
+        center.add(request) { (error) in
+            print(error!)
         }
         
         center.getPendingNotificationRequests {(requests: [UNNotificationRequest]) in
