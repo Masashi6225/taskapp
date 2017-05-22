@@ -23,27 +23,6 @@ class InputViewController: UIViewController {
     var categorySelector: String = ""
     
     // プロパティを動的にセットします
-    func setCategory(category : String) {
-        objc_setAssociatedObject(
-            self,
-            &categorySelector,
-            category,
-            objc_AssociationPolicy(rawValue: UInt())!
-            )
-    }
-    
-    // プロパティを動的に取得します
-    func cateogry()->String! {
-        if let category = objc_getAssociatedObject(
-            self,
-            &categorySelector
-            ) as? String
-        {
-            return category
-        }
-        return nil
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +34,8 @@ class InputViewController: UIViewController {
         contentsTextView.text = task.contents
     
         //編集必要＊＊
-        categorySelector.text = task.category
+        category.text = task.category
+        //タスクがあれば、そのカテゴリーを読み込む
         datePicker.date = task.date as Date
         // Do any additional setup after loading the view.
     }
@@ -72,7 +52,7 @@ class InputViewController: UIViewController {
             self.task.date = self.datePicker.date as NSDate
             
             //編集必要＊＊
-            self.category = self.setCategory.text
+            self.task.category = self.category.text!
             self.realm.add(self.task, update: true)
         }
         
