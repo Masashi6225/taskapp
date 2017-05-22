@@ -53,9 +53,9 @@ class InputViewController: UIViewController {
         
         titleTextField.text = task.title
         contentsTextView.text = task.contents
-        
+    
         //編集必要＊＊
-        category.text = task.category
+        categorySelector.text = task.category
         datePicker.date = task.date as Date
         // Do any additional setup after loading the view.
     }

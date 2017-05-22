@@ -185,6 +185,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="category" destination="BZ5-XM-aNY" id="CYW-qV-J0U"/>
                         <outlet property="contentsTextView" destination="eIg-qr-hR5" id="V1p-2N-6sR"/>
                         <outlet property="datePicker" destination="don-bD-lyB" id="04d-hq-PEk"/>
                         <outlet property="setCategory" destination="BZ5-XM-aNY" id="rYA-zA-JWu"/>
