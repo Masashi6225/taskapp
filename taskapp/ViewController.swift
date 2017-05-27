@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     var searchActive : Bool = false
-    var data = Task()
+    var data = Object()
     var filtered:[String] = []
 
     
@@ -147,6 +147,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return filtered.count
         }
         return data.count;
+        //realm
     }
     
     private func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
