@@ -54,6 +54,7 @@ class InputViewController: UIViewController {
             //編集必要＊＊
             self.task.category = self.category.text!
             self.realm.add(self.task, update: true)
+
         }
         
         setNotification(task: task)

@@ -10,13 +10,19 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var testSearchBar: UISearchBar!
+    
+    
+    var searchActive : Bool = false
+    var data = Task()
+    var filtered:[String] = []
+
     
     //Realmのインスタンスを取得する
     let realm = try! Realm()
-    
     //DB内のタスクが格納されるリスト
     //日付近い順でソート：降順
     //以降内容をアップデートするとリスト内は自動的に更新される
@@ -29,6 +35,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
         tableView.delegate = self
         tableView.dataSource = self
+        testSearchBar.delegate = self
+        testSearchBar.enablesReturnKeyAutomatically = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,6 +105,60 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true;
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filtered = data.filter({ (text) -> Bool in
+            let tmp: NSString = text as NSString
+            let range = tmp.range(of: searchText)
+            return range.location != NSNotFound
+        })
+        if(filtered.count == 0){
+            
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.tableView.reloadData()
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(searchActive) {
+            return filtered.count
+        }
+        return data.count;
+    }
+    
+    private func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!;
+        if(searchActive){
+            cell.textLabel?.text = filtered[indexPath.row]
+        } else {
+            cell.textLabel?.text = data[indexPath.row];
+        }
+        
+        return cell;
+    }
     //segueで画面遷移するときに呼ばれる
         override func prepare(for segue: UIStoryboardSegue, sender: Any?){
             let inputViewController:InputViewController = segue.destination as! InputViewController
@@ -119,7 +181,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         override func viewWillAppear(_ animated: Bool){
             super.viewWillAppear(animated)
             tableView.reloadData()
-        }
+    }
+    
 }
 
 
