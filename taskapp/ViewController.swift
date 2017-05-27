@@ -11,34 +11,33 @@ import RealmSwift
 import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var testSearchBar: UISearchBar!
     
     
     var searchActive : Bool = false
-    var data = Object()
-    var filtered:[String] = []
-
+//    var data = Object()
+//    var filtered:[String] = []
     
     //Realmのインスタンスを取得する
     let realm = try! Realm()
     //DB内のタスクが格納されるリスト
     //日付近い順でソート：降順
     //以降内容をアップデートするとリスト内は自動的に更新される
-    let taskArray = try! Realm().objects(Task.self).sorted(byKeyPath:"date", ascending:false)
+    var taskArray = try! Realm().objects(Task.self).sorted(byKeyPath:"date", ascending:false)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-    
+        
         tableView.delegate = self
         tableView.dataSource = self
         testSearchBar.delegate = self
         testSearchBar.enablesReturnKeyAutomatically = false
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -54,7 +53,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 再利用可能な cell を得る
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    
+        
         //cellに値を設定する
         let task = taskArray[indexPath.row]
         cell.textLabel?.text = task.title
@@ -124,66 +123,69 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        filtered = data.filter({ (text) -> Bool in
-            let tmp: NSString = text as NSString
-            let range = tmp.range(of: searchText)
-            return range.location != NSNotFound
-        })
-        if(filtered.count == 0){
-            
-            searchActive = false;
-        } else {
-            searchActive = true;
+        print(searchText)
+        
+        /* 検索文字に変化があった時に検索する  */
+        if ( searchText != "" ) {
+            taskArray = try! Realm().objects(Task.self).filter("category contains %@", searchText).sorted(byKeyPath:"date", ascending:false)
+        }
+        /* 検索文字がなかった場合に、全件表示する  */
+        else {
+            taskArray = try! Realm().objects(Task.self).sorted(byKeyPath:"date", ascending:false)
         }
         self.tableView.reloadData()
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(searchActive) {
-            return filtered.count
-        }
-        return data.count;
-        //realm
-    }
-    
-    private func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!;
-        if(searchActive){
-            cell.textLabel?.text = filtered[indexPath.row]
-        } else {
-            cell.textLabel?.text = data[indexPath.row];
-        }
         
-        return cell;
+        
+        /*
+         filtered = data.filter({ (text) -> Bool in
+         let tmp: NSString = text as NSString
+         let range = tmp.range(of: searchText)
+         return range.location != NSNotFound
+         })
+         if(filtered.count == 0){
+         searchActive = false;
+         } else {
+         searchActive = true;
+         }
+         self.tableView.reloadData()
+         */
     }
+    
+    /*
+     private func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!;
+     if(searchActive){
+     cell.textLabel?.text = filtered[indexPath.row]
+     } else {
+     cell.textLabel?.text = data[indexPath.row];
+     }
+     
+     return cell;
+     }
+     */
+    
     //segueで画面遷移するときに呼ばれる
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-            let inputViewController:InputViewController = segue.destination as! InputViewController
-            
-            if segue.identifier == "cellSegue" {
-                let indexPath = self.tableView.indexPathForSelectedRow
-                inputViewController.task = taskArray[indexPath!.row]
-            } else {
-                let task = Task()
-                task.date = NSDate()
-                
-                if taskArray.count != 0 {
-                    task.id = taskArray.max(ofProperty: "id")! + 1
-                }
-                
-                inputViewController.task = task
-            }
-        }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        let inputViewController:InputViewController = segue.destination as! InputViewController
         
-        override func viewWillAppear(_ animated: Bool){
-            super.viewWillAppear(animated)
-            tableView.reloadData()
+        if segue.identifier == "cellSegue" {
+            let indexPath = self.tableView.indexPathForSelectedRow
+            inputViewController.task = taskArray[indexPath!.row]
+        } else {
+            let task = Task()
+            task.date = NSDate()
+            
+            if taskArray.count != 0 {
+                task.id = taskArray.max(ofProperty: "id")! + 1
+            }
+            
+            inputViewController.task = task
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
 }
-
-

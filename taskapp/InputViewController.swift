@@ -73,7 +73,7 @@ class InputViewController: UIViewController {
         let request = UNNotificationRequest.init(identifier: String(task.id), content: content, trigger: trigger)
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error) in
-            print(error!)
+ //           print(error!)
         }
         
         center.getPendingNotificationRequests {(requests: [UNNotificationRequest]) in
