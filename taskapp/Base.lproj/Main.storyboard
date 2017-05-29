@@ -24,6 +24,9 @@
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ZHa-5R-3Nh">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="CoA-0g-ETu"/>
+                                </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bk7-8N-r47">
@@ -82,7 +85,7 @@
                     <connections>
                         <outlet property="tableView" destination="bk7-8N-r47" id="QWW-kx-JDn"/>
                         <outlet property="testSearchBar" destination="ZHa-5R-3Nh" id="LBE-oY-i1f"/>
-                        <segue destination="I79-EV-fGT" kind="show" identifier="cell Segue" id="dkW-cE-MOM"/>
+                        <segue destination="I79-EV-fGT" kind="show" identifier="cellSegue" id="dkW-cE-MOM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
